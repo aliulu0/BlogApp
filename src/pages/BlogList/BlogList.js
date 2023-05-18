@@ -5,12 +5,11 @@ import {
   Text,
   RefreshControl,
 } from 'react-native';
-import {useState, useEffect, useCallback} from 'react';
 import styles from './BlogList.style';
-import BlogCard from '../BlogCard/BlogCard';
+import BlogCard from '../../components/BlogCard/BlogCard';
 import {useBlog} from '../../context/blogContext';
 
-const BlogList = () => {
+const BlogList = ({navigation}) => {
   const {data, loading, error, setPage, fetchData, setLoading, setData} = useBlog();
 
   if (loading) {
@@ -20,7 +19,12 @@ const BlogList = () => {
   if (error) {
     return <Text>{error}</Text>;
   }
-  const renderBlog = ({item}) => <BlogCard item={item} />;
+
+  const handleBlogSelect = (id) => {
+    navigation.navigate("DetailScreen", {id});
+  };
+
+  const renderBlog = ({item}) => <BlogCard item={item} onSelect={()=> handleBlogSelect(item.postId)} />;
 
   const renderFooter = () => {
     return (
@@ -42,7 +46,7 @@ const BlogList = () => {
       <FlatList
         data={data}
         renderItem={renderBlog}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.postId}
         onEndReached={() => setPage(prev => prev + 1)}
         ListFooterComponent={renderFooter}
         onEndReachedThreshold={0.1}

@@ -1,9 +1,9 @@
 import {View, Text, Image, TouchableWithoutFeedback} from 'react-native';
 import React from 'react';
 import styles from './BlogCard.style';
-const BlogCard = ({item}) => {
+const BlogCard = ({item, onSelect}) => {
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={onSelect}>
       <View style={styles.container}>
         <Image style={styles.image} source={{uri: item.banner}} />
         <View style={styles.info}>
